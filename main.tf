@@ -1,5 +1,5 @@
 
-# Define the provider
+# DEFINE THE PROVIDER
 
 provider "aws" {
   profile = "default"
@@ -7,178 +7,120 @@ provider "aws" {
   # assume_role {
   #   role_arn = "${var.provider_env_roles[terraform.workspace]}"
   # }
-}
-
-# Define local variables
-
-locals {
-  common_tags = {
-    Owner_Name       = "cloud-watch"
- #   Line_of_Business = split("-",terraform.workspace)[0]
-    Application_Name = "cloud-watch"
-   # Enviroment_Name  = split("-",terraform.workspace)[1]
-    map-migrated     = "d-server-027onhhwpz2ber"
+   default_tags {
+   tags = {
+     map-migrated = "d-server-027onhhwpz2ber"
+     Owner_Name       = "analytics"
+     Line_of_Business = "bi"
+     Application_Name = "analytics_stratagy"
+     Enviroment_Name  = "dev"
+   }
   }
 }
 
-resource "aws_vpc" "erp-qa-vpc" {
+# CREATE VPC
+
+resource "aws_vpc" "bi-dev-vpc" {
   cidr_block       = "10.216.224.0/19"
   instance_tenancy = "default"
-  tags = local.common_tags
+  enable_dns_hostnames = true
+  enable_dns_support   = true
 }
 
-# Create VPC
+# CREATE SUBNETS
 
-# Create Subnets
-
-resource "aws_subnet" "erp-qa-adapt-subnet-1a-1" {
-  vpc_id     = aws_vpc.erp-qa-vpc.id
+resource "aws_subnet" "bi-dev-adapt-subnet-1a-1" {
+  vpc_id     = aws_vpc.bi-dev-vpc.id
   cidr_block = "10.216.224.0/24"
-  tags = local.common_tags
 }
 
-resource "aws_subnet" "erp-qa-adapt-subnet-1b-1" {
-  vpc_id     = aws_vpc.erp-qa-vpc.id
+resource "aws_subnet" "bi-dev-adapt-subnet-1b-1" {
+  vpc_id     = aws_vpc.bi-dev-vpc.id
   cidr_block = "10.216.234.0/24"
-  tags = local.common_tags
 }
 
-resource "aws_subnet" "erp-qa-app-subnet-1a-1" {
-  vpc_id     = aws_vpc.erp-qa-vpc.id
+resource "aws_subnet" "bi-dev-app-subnet-1a-1" {
+  vpc_id     = aws_vpc.bi-dev-vpc.id
   cidr_block = "10.216.225.0/24"
-  tags = local.common_tags
 }
 
-resource "aws_subnet" "erp-qa-app-subnet-1b-1" {
-  vpc_id     = aws_vpc.erp-qa-vpc.id
+resource "aws_subnet" "bi-dev-app-subnet-1b-1" {
+  vpc_id     = aws_vpc.bi-dev-vpc.id
   cidr_block = "10.216.235.0/24"
-  tags = local.common_tags
 }
 
-resource "aws_subnet" "erp-qa-db-subnet-1a-1" {
-  vpc_id     = aws_vpc.erp-qa-vpc.id
-  cidr_block = "10.216.226.0/24"
-  tags = local.common_tags
-}
+# CREATE ROUTING TABLE
 
-resource "aws_subnet" "erp-qa-db-subnet-1b-1" {
-  vpc_id     = aws_vpc.erp-qa-vpc.id
-  cidr_block = "10.216.236.0/24"
-  tags = local.common_tags
-}
-
-resource "aws_subnet" "erp-qa-gen-subnet-1a-1" {
-  vpc_id     = aws_vpc.erp-qa-vpc.id
-  cidr_block = "10.216.227.0/24"
-  tags = local.common_tags
-}
-
-resource "aws_subnet" "erp-qa-gen-subnet-1b-1" {
-  vpc_id     = aws_vpc.erp-qa-vpc.id
-  cidr_block = "10.216.237.0/24"
-  tags = local.common_tags
-}
-
-resource "aws_subnet" "erp-qa-dmz-subnet-1a-1" {
-  vpc_id     = aws_vpc.erp-qa-vpc.id
-  cidr_block = "10.216.228.0/24"
-  tags = local.common_tags
-}
-
-resource "aws_subnet" "erp-qa-dmz-subnet-1b-1" {
-  vpc_id     = aws_vpc.erp-qa-vpc.id
-  cidr_block = "10.216.238.0/24"
-  tags = local.common_tags
-}
-
-resource "aws_subnet" "erp-qa-web-subnet-1a-1" {
-  vpc_id     = aws_vpc.erp-qa-vpc.id
-  cidr_block = "10.216.229.0/24"
-  tags = local.common_tags
-}
-
-resource "aws_subnet" "erp-qa-web-subnet-1b-1" {
-  vpc_id     = aws_vpc.erp-qa-vpc.id
-  cidr_block = "10.216.239.0/24"
-  tags = local.common_tags
-}
-
-# Create Route Table
-
-resource "aws_route_table" "erp-qa-private-1a-1b-rt" {
-  vpc_id     = aws_vpc.erp-qa-vpc.id
+resource "aws_route_table" "bi-dev-private-1a-1b-rt" {
+  vpc_id     = aws_vpc.bi-dev-vpc.id
 
   # route {
   #   cidr_block = "0.0.0.0/0"
   #   gateway_id = aws_internet_gateway.example.id
   # }
-
-  tags = local.common_tags
 }
 
-# Create subnet to route table association
+# CREATE SUBNET TO ROUTING TABLE ASSOCIATION
 
-resource "aws_route_table_association" "erp-qa-adapt-subnet-1a-1-ass" {
-  subnet_id      = aws_subnet.erp-qa-adapt-subnet-1a-1.id
-  route_table_id = aws_route_table.erp-qa-private-1a-1b-rt.id
+resource "aws_route_table_association" "bi-dev-adapt-subnet-1a-1-ass" {
+  subnet_id      = aws_subnet.bi-dev-adapt-subnet-1a-1.id
+  route_table_id = aws_route_table.bi-dev-private-1a-1b-rt.id
 }
 
-resource "aws_route_table_association" "erp-qa-adapt-subnet-1b-1-ass" {
-  subnet_id      = aws_subnet.erp-qa-adapt-subnet-1b-1.id
-  route_table_id = aws_route_table.erp-qa-private-1a-1b-rt.id
+resource "aws_route_table_association" "bi-dev-adapt-subnet-1b-1-ass" {
+  subnet_id      = aws_subnet.bi-dev-adapt-subnet-1b-1.id
+  route_table_id = aws_route_table.bi-dev-private-1a-1b-rt.id
 }
 
-resource "aws_route_table_association" "erp-qa-app-subnet-1a-1-ass" {
-  subnet_id      = aws_subnet.erp-qa-app-subnet-1a-1.id
-  route_table_id = aws_route_table.erp-qa-private-1a-1b-rt.id
+resource "aws_route_table_association" "bi-dev-app-subnet-1a-1-ass" {
+  subnet_id      = aws_subnet.bi-dev-app-subnet-1a-1.id
+  route_table_id = aws_route_table.bi-dev-private-1a-1b-rt.id
 }
 
-resource "aws_route_table_association" "erp-qa-app-subnet-1b-1-ass" {
-  subnet_id      = aws_subnet.erp-qa-app-subnet-1b-1.id
-  route_table_id = aws_route_table.erp-qa-private-1a-1b-rt.id
+resource "aws_route_table_association" "bi-dev-app-subnet-1b-1-ass" {
+  subnet_id      = aws_subnet.bi-dev-app-subnet-1b-1.id
+  route_table_id = aws_route_table.bi-dev-private-1a-1b-rt.id
 }
 
-resource "aws_route_table_association" "erp-qa-db-subnet-1a-1-ass" {
-  subnet_id      = aws_subnet.erp-qa-db-subnet-1a-1.id
-  route_table_id = aws_route_table.erp-qa-private-1a-1b-rt.id
+# CREATE DB SECURITY GROUP
+
+resource "aws_security_group" "bi-dev-rds-sg" {
+  name   = "bi-dev-rds-sg"
+  vpc_id = aws_vpc.bi-dev-vpc.id
+
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
-resource "aws_route_table_association" "erp-qa-db-subnet-1b-1-ass" {
-  subnet_id      = aws_subnet.erp-qa-db-subnet-1b-1.id
-  route_table_id = aws_route_table.erp-qa-private-1a-1b-rt.id
+# CREATE DB
+
+resource "aws_db_instance" "education" {
+  identifier             = "education"
+  instance_class         = "db.t3.micro"
+  allocated_storage      = 5
+  engine                 = "postgres"
+  engine_version         = "13.1"
+  username               = "edu"
+  password               = var.db_password
+  db_subnet_group_name   = aws_db_subnet_group.education.name
+  vpc_security_group_ids = [aws_security_group.rds.id]
+  parameter_group_name   = aws_db_parameter_group.education.name
+  publicly_accessible    = true
+  skip_final_snapshot    = true
 }
 
-resource "aws_route_table_association" "erp-qa-gen-subnet-1a-1-ass" {
-  subnet_id      = aws_subnet.erp-qa-gen-subnet-1a-1.id
-  route_table_id = aws_route_table.erp-qa-private-1a-1b-rt.id
-}
-
-resource "aws_route_table_association" "erp-qa-gen-subnet-1b-1-ass" {
-  subnet_id      = aws_subnet.erp-qa-gen-subnet-1b-1.id
-  route_table_id = aws_route_table.erp-qa-private-1a-1b-rt.id
-}
-
-resource "aws_route_table_association" "erp-qa-dmz-subnet-1a-1-ass" {
-  subnet_id      = aws_subnet.erp-qa-dmz-subnet-1a-1.id
-  route_table_id = aws_route_table.erp-qa-private-1a-1b-rt.id
-}
-
-resource "aws_route_table_association" "erp-qa-dmz-subnet-1b-1-ass" {
-  subnet_id      = aws_subnet.erp-qa-dmz-subnet-1b-1.id
-  route_table_id = aws_route_table.erp-qa-private-1a-1b-rt.id
-}
-
-resource "aws_route_table_association" "erp-qa-web-subnet-1a-1-ass" {
-  subnet_id      = aws_subnet.erp-qa-web-subnet-1a-1.id
-  route_table_id = aws_route_table.erp-qa-private-1a-1b-rt.id
-}
-
-resource "aws_route_table_association" "erp-qa-web-subnet-1b-1-ass" {
-  subnet_id      = aws_subnet.erp-qa-web-subnet-1b-1.id
-  route_table_id = aws_route_table.erp-qa-private-1a-1b-rt.id
-}
-
-# Configure TGW Attachment
+# CREATE TGW ATTACHMENT
 
 # resource "aws_ec2_transit_gateway_vpc_attachment" "example" {
 #   subnet_ids         = [aws_subnet.erp-qa-adapt-subnet-1a-1.id,aws_subnet.erp-qa-adapt-subnet-1b-1.id]
@@ -186,200 +128,47 @@ resource "aws_route_table_association" "erp-qa-web-subnet-1b-1-ass" {
 #   vpc_id     = aws_vpc.erp-qa-vpc.id
 # }
 
-# Configure EC2 Servers
+# # CREATE EC2 SERVERS
 
-resource "aws_instance" "erp-qa-1a-m3-app-ec2" {
-  ami           = "ami-03cd0a8eda2957211"
-  instance_type = "t3a.2xlarge"
-  subnet_id     = aws_subnet.erp-qa-app-subnet-1a-1.id
-  tags          = local.common_tags
-}
+# resource "aws_instance" "erp-qa-1a-m3-app-ec2" {
+#   ami           = "ami-03cd0a8eda2957211"
+#   instance_type = "t3a.2xlarge"
+#   subnet_id     = aws_subnet.erp-qa-app-subnet-1a-1.id
+#   tags          = local.common_tags
+# }
 
-resource "aws_instance" "erp-qa-1a-m3-ui-ec2" {
-  ami           = "ami-03cd0a8eda2957211"
-  instance_type = "t3a.2xlarge"
-  subnet_id     = aws_subnet.erp-qa-app-subnet-1a-1.id
-  tags          = local.common_tags
-}
 
-resource "aws_instance" "erp-qa-1a-m3-home-ec2" {
-  ami           = "ami-03cd0a8eda2957211"
-  instance_type = "t3a.xlarge"
-  subnet_id     = aws_subnet.erp-qa-app-subnet-1a-1.id
-  tags          = local.common_tags
-}
+# # CREATE SECURITY GROUPS
 
-resource "aws_instance" "erp-qa-1a-m3-iso-ec2" {
-  ami           = "ami-03cd0a8eda2957211"
-  instance_type = "t3a.large"
-  subnet_id     = aws_subnet.erp-qa-app-subnet-1a-1.id
-  tags          = local.common_tags
-}
+# resource "aws_security_group" "erp-qa-sg" {
+#   # name        = "allow_tls"
+#   # description = "Allow TLS inbound traffic"
+#   vpc_id      = aws_vpc.erp-qa-vpc.id
 
-resource "aws_instance" "erp-qa-1a-m3-ion-ec2" {
-  ami           = "ami-03cd0a8eda2957211"
-  instance_type = "t3a.large"
-  subnet_id     = aws_subnet.erp-qa-app-subnet-1a-1.id
-  tags          = local.common_tags
-}
+#   ingress {
+#     from_port        = 22010
+#     to_port          = 22010
+#     protocol         = "tcp"
+#     cidr_blocks      = ["10.216.196.255/32"]
+#   }
 
-# Configure DB Servers
+#   ingress {
+#     from_port        = 1433
+#     to_port          = 1433
+#     protocol         = "tcp"
+#     cidr_blocks      = ["10.216.196.255/32"]
+#   }
 
-resource "aws_instance" "erp-qa-1a-m3-iosdb-ec2" {
-  ami           = "ami-01912100188d48ee4"
-  instance_type = "t3a.xlarge"
-  subnet_id     = aws_subnet.erp-qa-app-subnet-1a-1.id
-  tags          = local.common_tags
-}
 
-resource "aws_instance" "erp-qa-1a-m3-ancdb-ec2" {
-  ami           = "ami-01912100188d48ee4"
-  instance_type = "t3a.xlarge"
-  subnet_id     = aws_subnet.erp-qa-app-subnet-1a-1.id
-  tags          = local.common_tags
-}
+#   egress {
+#     from_port        = 0
+#     to_port          = 0
+#     protocol         = "-1"
+#     cidr_blocks      = ["0.0.0.0/0"]
+#   }
 
-resource "aws_instance" "erp-qa-1a-m3-m3db-ec2" {
-  ami           = "ami-01912100188d48ee4"
-  instance_type = "t3a.2xlarge"
-  subnet_id     = aws_subnet.erp-qa-app-subnet-1a-1.id
-  tags          = local.common_tags
-}
-
-# Configure Security Groups
-
-resource "aws_security_group" "erp-qa-sg" {
-  # name        = "allow_tls"
-  # description = "Allow TLS inbound traffic"
-  vpc_id      = aws_vpc.erp-qa-vpc.id
-
-  ingress {
-    from_port        = 22010
-    to_port          = 22010
-    protocol         = "tcp"
-    cidr_blocks      = ["10.216.196.255/32"]
-  }
-
-  ingress {
-    from_port        = 1433
-    to_port          = 1433
-    protocol         = "tcp"
-    cidr_blocks      = ["10.216.196.255/32"]
-  }
-
-  ingress {
-    from_port        = 1433
-    to_port          = 1433
-    protocol         = "tcp"
-    cidr_blocks      = ["10.213.64.0/22"]
-  }
-
-  ingress {
-    from_port        = 1433
-    to_port          = 1433
-    protocol         = "tcp"
-    cidr_blocks      = ["10.213.68.0/22"]
-  }
-
-  ingress {
-    from_port        = 1433
-    to_port          = 1433
-    protocol         = "tcp"
-    cidr_blocks      = ["10.10.216.0/22"]
-  }
-
-  ingress {
-    from_port        = 1433
-    to_port          = 1433
-    protocol         = "tcp"
-    cidr_blocks      = ["10.213.90.0/23"]
-  }
-
-  ingress {
-    from_port        = 16405
-    to_port          = 16408
-    protocol         = "tcp"
-    cidr_blocks      = ["10.10.216.0/22"]
-  }
-
-  ingress {
-    from_port        = 52220
-    to_port          = 52220
-    protocol         = "tcp"
-    cidr_blocks      = ["10.10.216.0/22"]
-  }
-
-  ingress {
-    from_port        = 22004
-    to_port          = 22018
-    protocol         = "tcp"
-    cidr_blocks      = ["10.10.216.0/22"]
-  }
-
-  ingress {
-    from_port        = 443
-    to_port          = 443
-    protocol         = "tcp"
-    cidr_blocks      = ["10.10.216.0/22"]
-  }
-
-  ingress {
-    from_port        = 22007
-    to_port          = 22018
-    protocol         = "tcp"
-    cidr_blocks      = ["10.213.64.0/22"]
-  }
-
-  ingress {
-    from_port        = 22007
-    to_port          = 22018
-    protocol         = "tcp"
-    cidr_blocks      = ["10.213.68.0/22"]
-  }
-
-  ingress {
-    from_port        = 3389
-    to_port          = 3389
-    protocol         = "tcp"
-    cidr_blocks      = ["10.0.0.0/8"]
-  }
-
-  ingress {
-    from_port        = 1422
-    to_port          = 1422
-    protocol         = "tcp"
-    cidr_blocks      = ["10.213.92.0/23"]
-  }
-  ingress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["10.214.70.178/32"]
-  }
-
-  ingress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["10.216.165.137/32"]
-  }
-
-  ingress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["10.216.164.129/32"]
-  }
-
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-  }
-
-  tags          = local.common_tags
-}
+#   tags          = local.common_tags
+# }
 
 
 # ## CloudWatch Alarms - Backup Faild & VPN Status Change ##
