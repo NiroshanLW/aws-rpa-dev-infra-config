@@ -117,17 +117,24 @@ resource "aws_security_group" "bi-dev-rds-sg" {
 # CREATE DB
 
 resource "aws_db_instance" "bi-dev-rds-db" {
+  allocated_storage      = 20
+  availability_zone      = "ap-southeast-1a"
+  backup_retention_period= 0
+  deletion_protection    = false
+#  name                   = "bi-dev-rds-db"    
+  enabled_cloudwatch_logs_exports = ["error"]
   identifier             = "bi-dev-rds-db"
-  instance_class         = "db.t3.micro"
-  allocated_storage      = 5
-  engine                 = "postgres"
-  engine_version         = "13.1"
+  instance_class         = "db.t3.small"
+  license_model          = "license-included"
+  multi_az               = false
+  engine                 = "sqlserver-ex"
+  engine_version         = "15.00.4073.23.v1"
   username               = "bidevrdsdb"
   password               = "bidevrdsdb"
   db_subnet_group_name   = aws_db_subnet_group.bi-dev-db-subnet-grp.name
   vpc_security_group_ids = [aws_security_group.bi-dev-rds-sg.id]
 #  parameter_group_name   = aws_db_parameter_group.education.name
-#  publicly_accessible    = true
+  publicly_accessible    = false
   skip_final_snapshot    = true
 }
 
