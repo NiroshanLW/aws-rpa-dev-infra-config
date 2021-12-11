@@ -144,6 +144,19 @@ resource "aws_s3_bucket" "bi-dev-s3-bucket" {
   bucket = "bi-dev-s3-bucket"
 }
 
+# CREATE ACCOUNT PASSWORD POLICY
+
+resource "aws_iam_account_password_policy" "bi-dev-account-password-policy" {
+  minimum_password_length        = 14
+  require_lowercase_characters   = true
+  require_numbers                = true
+  require_uppercase_characters   = true
+  require_symbols                = true
+  allow_users_to_change_password = false
+  password_reuse_prevention      = 24
+  max_password_age               = 90
+}
+
 # CREATE TGW ATTACHMENT
 
 # resource "aws_ec2_transit_gateway_vpc_attachment" "example" {
