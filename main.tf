@@ -9,7 +9,7 @@ provider "aws" {
   # }
    default_tags {
    tags = {
-     map-migrated = "d-server-027onhhwpz2ber"
+     map-migrated     = "d-server-027onhhwpz2ber"
      Owner_Name       = "analytics"
      Line_of_Business = "bi"
      Application_Name = "analytics_stratagy"
@@ -32,21 +32,25 @@ resource "aws_vpc" "bi-dev-vpc" {
 resource "aws_subnet" "bi-dev-adapt-subnet-1a-1" {
   vpc_id     = aws_vpc.bi-dev-vpc.id
   cidr_block = "10.216.224.0/24"
+  availability_zone = "ap-southeast-1a"
 }
 
 resource "aws_subnet" "bi-dev-adapt-subnet-1b-1" {
   vpc_id     = aws_vpc.bi-dev-vpc.id
   cidr_block = "10.216.234.0/24"
+  availability_zone = "ap-southeast-1b"
 }
 
 resource "aws_subnet" "bi-dev-app-subnet-1a-1" {
   vpc_id     = aws_vpc.bi-dev-vpc.id
   cidr_block = "10.216.225.0/24"
+  availability_zone = "ap-southeast-1a"
 }
 
 resource "aws_subnet" "bi-dev-app-subnet-1b-1" {
   vpc_id     = aws_vpc.bi-dev-vpc.id
   cidr_block = "10.216.235.0/24"
+  availability_zone = "ap-southeast-1b"
 }
 
 # CREATE ROUTING TABLE
@@ -82,6 +86,13 @@ resource "aws_route_table_association" "bi-dev-app-subnet-1b-1-ass" {
   route_table_id = aws_route_table.bi-dev-private-1a-1b-rt.id
 }
 
+# CREATE DB SUBNET GROUP
+
+resource "aws_db_subnet_group" "bi-dev-db-subnet-grp" {
+  name       = "bi-dev-db-subnet-grp"
+  subnet_ids = [aws_subnet.bi-dev-app-subnet-1a-1.id,aws_subnet.bi-dev-app-subnet-1b-1.id]
+}
+
 # CREATE DB SECURITY GROUP
 
 resource "aws_security_group" "bi-dev-rds-sg" {
@@ -105,19 +116,25 @@ resource "aws_security_group" "bi-dev-rds-sg" {
 
 # CREATE DB
 
-resource "aws_db_instance" "education" {
-  identifier             = "education"
+resource "aws_db_instance" "bi-dev-rds-db" {
+  identifier             = "bi-dev-rds-db"
   instance_class         = "db.t3.micro"
   allocated_storage      = 5
   engine                 = "postgres"
   engine_version         = "13.1"
-  username               = "edu"
-  password               = var.db_password
-  db_subnet_group_name   = aws_db_subnet_group.education.name
-  vpc_security_group_ids = [aws_security_group.rds.id]
-  parameter_group_name   = aws_db_parameter_group.education.name
-  publicly_accessible    = true
+  username               = "bidevrdsdb"
+  password               = "bidevrdsdb"
+  db_subnet_group_name   = aws_db_subnet_group.bi-dev-db-subnet-grp.name
+  vpc_security_group_ids = [aws_security_group.bi-dev-rds-sg.id]
+#  parameter_group_name   = aws_db_parameter_group.education.name
+#  publicly_accessible    = true
   skip_final_snapshot    = true
+}
+
+# CREATE S3 BUCKETS
+
+resource "aws_s3_bucket" "bi-dev-s3-bucket" {
+  bucket = "bi-dev-s3-bucket"
 }
 
 # CREATE TGW ATTACHMENT
