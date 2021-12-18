@@ -29,6 +29,9 @@ resource "aws_vpc" "bi-sandbox-dl-sec-vpc" {
   instance_tenancy = "default"
   enable_dns_hostnames = true
   enable_dns_support   = true
+  tags = {
+    Name = "bi-sandbox-dl-sec-vpc"
+  }
 }
 
 ################################################################################
@@ -38,6 +41,9 @@ resource "aws_vpc" "bi-sandbox-dm-sec-vpc" {
   instance_tenancy = "default"
   enable_dns_hostnames = true
   enable_dns_support   = true
+  tags = {
+    Name = "bi-sandbox-dm-sec-vpc"
+  }
 }
 
 ############################
@@ -48,48 +54,72 @@ resource "aws_subnet" "bi-sandbox-dl-sec-adapt-subnet-1a-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
   cidr_block = "10.214.192.0/24"
   availability_zone = "ap-southeast-1a"
+  tags = {
+    Name = "bi-sandbox-dl-sec-adapt-subnet-1a-1"
+  }
 }
 
 resource "aws_subnet" "bi-sandbox-dl-sec-adapt-subnet-1b-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
   cidr_block = "10.214.193.0/24"
   availability_zone = "ap-southeast-1b"
+  tags = {
+    Name = "bi-sandbox-dl-sec-adapt-subnet-1b-1"
+  }
 }
 
 resource "aws_subnet" "bi-sandbox-dl-sec-service-subnet-1a-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
   cidr_block = "10.214.194.0/24"
   availability_zone = "ap-southeast-1a"
+  tags = {
+    Name = "bi-sandbox-dl-sec-service-subnet-1a-1"
+  }
 }
 
 resource "aws_subnet" "bi-sandbox-dl-sec-service-subnet-1b-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
   cidr_block = "10.214.195.0/24"
   availability_zone = "ap-southeast-1b"
+  tags = {
+    Name = "bi-sandbox-dl-sec-service-subnet-1b-1"
+  }
 }
 
 resource "aws_subnet" "bi-sandbox-dl-sec-datalake-subnet-1a-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
   cidr_block = "10.214.196.0/24"
   availability_zone = "ap-southeast-1a"
+  tags = {
+    Name = "bi-sandbox-dl-sec-datalake-subnet-1a-1"
+  }
 }
 
 resource "aws_subnet" "bi-sandbox-dl-sec-datalake-subnet-1b-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
   cidr_block = "10.214.197.0/24"
   availability_zone = "ap-southeast-1b"
+  tags = {
+    Name = "bi-sandbox-dl-sec-datalake-subnet-1b-1"
+  }
 }
 
 resource "aws_subnet" "bi-sandbox-dl-sec-entdataproduct-subnet-1a-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
   cidr_block = "10.214.198.0/24"
   availability_zone = "ap-southeast-1a"
+  tags = {
+    Name = "bi-sandbox-dl-sec-entdataproduct-subnet-1a-1"
+  }
 }
 
 resource "aws_subnet" "bi-sandbox-dl-sec-entdataproduct-subnet-1b-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
   cidr_block = "10.214.199.0/24"
   availability_zone = "ap-southeast-1b"
+  tags = {
+    Name = "bi-sandbox-dl-sec-entdataproduct-subnet-1b-1"
+  }
 }
 
 ################################################################################
@@ -98,24 +128,36 @@ resource "aws_subnet" "bi-sandbox-dm-sec-adapt-subnet-1a-1" {
   vpc_id     = aws_vpc.bi-sandbox-dm-sec-vpc.id
   cidr_block = "10.214.200.0/24"
   availability_zone = "ap-southeast-1a"
+  tags = {
+    Name = "bi-sandbox-dm-sec-adapt-subnet-1a-1"
+  }
 }
 
 resource "aws_subnet" "bi-sandbox-dm-sec-adapt-subnet-1b-1" {
   vpc_id     = aws_vpc.bi-sandbox-dm-sec-vpc.id
   cidr_block = "10.214.201.0/24"
   availability_zone = "ap-southeast-1b"
+  tags = {
+    Name = "bi-sandbox-dm-sec-adapt-subnet-1b-1"
+  }
 }
 
 resource "aws_subnet" "bi-sandbox-dm-sec-service-subnet-1a-1" {
   vpc_id     = aws_vpc.bi-sandbox-dm-sec-vpc.id
   cidr_block = "10.214.202.0/24"
   availability_zone = "ap-southeast-1a"
+  tags = {
+    Name = "bi-sandbox-dm-sec-service-subnet-1a-1"
+  }
 }
 
 resource "aws_subnet" "bi-sandbox-dm-sec-service-subnet-1b-1" {
   vpc_id     = aws_vpc.bi-sandbox-dm-sec-vpc.id
   cidr_block = "10.214.203.0/24"
   availability_zone = "ap-southeast-1b"
+  tags = {
+    Name = "bi-sandbox-dm-sec-service-subnet-1b-1"
+  }
 }
 
 
@@ -127,6 +169,9 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "bi-sandbox-dl-sec-vpc-tgw-att
   subnet_ids         = [aws_subnet.bi-sandbox-dl-sec-adapt-subnet-1a-1.id,aws_subnet.bi-sandbox-dl-sec-adapt-subnet-1b-1.id]
   transit_gateway_id = "tgw-0d7caf9dc995910f5"
   vpc_id             = aws_vpc.bi-sandbox-dl-sec-vpc.id
+  tags = {
+    Name = "bi-sandbox-dl-sec-vpc-tgw-attach"
+  }
 }
 
 ################################################################################
@@ -135,6 +180,9 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "bi-sandbox-dm-sec-vpc-tgw-att
   subnet_ids         = [aws_subnet.bi-sandbox-dm-sec-adapt-subnet-1a-1.id,aws_subnet.bi-sandbox-dm-sec-adapt-subnet-1b-1.id]
   transit_gateway_id = "tgw-0d7caf9dc995910f5"
   vpc_id             = aws_vpc.bi-sandbox-dm-sec-vpc.id
+  tags = {
+    Name = "bi-sandbox-dm-sec-vpc-tgw-attach"
+  }
 }
 
 ############################
@@ -148,6 +196,9 @@ resource "aws_route_table" "bi-sandbox-dl-sec-private-1a-1b-rt" {
     cidr_block         = "0.0.0.0/0"
     transit_gateway_id = "tgw-0d7caf9dc995910f5"
   }
+  tags = {
+    Name = "bi-sandbox-dl-sec-private-1a-1b-rt"
+  }
 }
 
 ################################################################################
@@ -158,6 +209,9 @@ resource "aws_route_table" "bi-sandbox-dm-sec-private-1a-1b-rt" {
   route {
     cidr_block         = "0.0.0.0/0"
     transit_gateway_id = "tgw-0d7caf9dc995910f5"
+  }
+  tags = {
+    Name = "bi-sandbox-dm-sec-private-1a-1b-rt"
   }
 }
 
@@ -239,7 +293,7 @@ resource "aws_db_subnet_group" "bi-sandbox-dl-sec-db-subnet-grp" {
 ################################################################################
 
 resource "aws_db_subnet_group" "bi-sandbox-dm-sec-db-subnet-grp" {
-  name       = "bi-sandbox-dl-sec-dm-subnet-grp"
+  name       = "bi-sandbox-dm-sec-db-subnet-grp"
   subnet_ids = [aws_subnet.bi-sandbox-dm-sec-service-subnet-1a-1.id,aws_subnet.bi-sandbox-dm-sec-service-subnet-1b-1.id]
 }
 
@@ -264,6 +318,10 @@ resource "aws_security_group" "bi-sandbox-dl-sec-rds-sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name = "bi-sandbox-dl-sec-rds-sg"
+  }
 }
 
 ################################################################################
@@ -284,6 +342,9 @@ resource "aws_security_group" "bi-sandbox-dm-sec-rds-sg" {
     to_port     = 5432
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "bi-sandbox-dm-sec-rds-sg"
   }
 }
 
@@ -429,120 +490,3 @@ resource "aws_cloudwatch_metric_alarm" "cis_metric_alarm" {
   actions_enabled           = "true"
   alarm_actions             = [aws_sns_topic.bi-sandbox-cis-cloudwatch-alarm-topic.arn]
 }
-
-
-# # CREATE EC2 SERVERS
-
-# resource "aws_instance" "erp-qa-1a-m3-app-ec2" {
-#   ami           = "ami-03cd0a8eda2957211"
-#   instance_type = "t3a.2xlarge"
-#   subnet_id     = aws_subnet.erp-qa-app-subnet-1a-1.id
-#   tags          = local.common_tags
-# }
-
-
-# # CREATE SECURITY GROUPS
-
-# resource "aws_security_group" "erp-qa-sg" {
-#   # name        = "allow_tls"
-#   # description = "Allow TLS inbound traffic"
-#   vpc_id      = aws_vpc.erp-qa-vpc.id
-
-#   ingress {
-#     from_port        = 22010
-#     to_port          = 22010
-#     protocol         = "tcp"
-#     cidr_blocks      = ["10.216.196.255/32"]
-#   }
-
-#   ingress {
-#     from_port        = 1433
-#     to_port          = 1433
-#     protocol         = "tcp"
-#     cidr_blocks      = ["10.216.196.255/32"]
-#   }
-
-
-#   egress {
-#     from_port        = 0
-#     to_port          = 0
-#     protocol         = "-1"
-#     cidr_blocks      = ["0.0.0.0/0"]
-#   }
-
-#   tags          = local.common_tags
-# }
-
-
-# ## CloudWatch Alarms - Backup Faild & VPN Status Change ##
-
-# resource "aws_sns_topic" "cloud_watch_alarm_topic" {
-#   count        = length(var.alarm_type)
-#   name         = "cloud-watch-${var.alarm_type[count.index]}-alarm-topic"
-#   display_name = "CW Alarm | ${var.alarm_type[count.index]} | ${terraform.workspace}"
-#   tags         = local.common_tags
-# }
-
-# resource "aws_sns_topic_subscription" "cloud_watch_alarm_email_target" {
-#   count     = length(var.alarm_type)
-#   topic_arn = aws_sns_topic.cloud_watch_alarm_topic[count.index].arn
-#   protocol  = "email"
-#   endpoint  = "AWS-CloudWatch-Notification@brandix.com" 
-# } 
-
-# resource "aws_cloudwatch_metric_alarm" "cw_alarm" {
-#   count                     = length(var.alarm_type)
-#   alarm_name                = "${var.alarm_type[count.index]}-alarm"
-#   comparison_operator       = "GreaterThanOrEqualToThreshold"
-#   evaluation_periods        = var.evaluation_periods[count.index]
-#   metric_name               = var.metric_name[count.index] 
-#   namespace                 = var.name_space[count.index]
-#   period                    = var.period[count.index]
-#   statistic                 = var.statistic[count.index]
-#   threshold                 = var.threshold[count.index]
-#   alarm_description         = "This metric monitors ${var.alarm_type[count.index]}"
-#   insufficient_data_actions = []
-  
-#   actions_enabled           = "true"
-#   alarm_actions             = [aws_sns_topic.cloud_watch_alarm_topic[count.index].arn]
-#   tags                      = local.common_tags
-
-# }
-
-# ## CloudWatch Alarms - High CPU ##
-
-# resource "aws_sns_topic" "cloud_watch_alarm_topic_cpu" {
-#   name         = "cloud-watch-high-cpu-alarm-topic"
-#   display_name = "CW Alarm | High CPU | ${terraform.workspace}"
-#   tags         = local.common_tags
-# }
-
-# resource "aws_sns_topic_subscription" "cloud_watch_alarm_email_target_cpu" {
-#   topic_arn = aws_sns_topic.cloud_watch_alarm_topic_cpu.arn
-#   protocol  = "email"
-#   endpoint  = "AWS-CloudWatch-Notification@brandix.com" 
-# } 
-
-# resource "aws_cloudwatch_metric_alarm" "cw_high_cpu_alarm" {
-#   count                     = length(var.instance_id)
-#   alarm_name                = "${var.instance_id[count.index]}-high-cpu-alarm"
-#   comparison_operator       = "GreaterThanOrEqualToThreshold"
-#   evaluation_periods        = "2"
-#   metric_name               = "CPUUtilization"
-#   namespace                 = "AWS/EC2"
-#   period                    = "60"
-#   statistic                 = "Maximum"
-#   threshold                 = "80"
-  
-#   alarm_description         = "This metric monitors high cpu of instances"
-#   insufficient_data_actions = []
-
-#   dimensions = {
-#         InstanceId = var.instance_id[count.index]
-#       }
-  
-#   actions_enabled           = "true"
-#   alarm_actions             = [aws_sns_topic.cloud_watch_alarm_topic_cpu.arn]
-#   tags                      = local.common_tags
-# }
-
