@@ -10,7 +10,7 @@ provider "aws" {
    default_tags {
    tags = {
      map-migrated     = "d-server-027onhhwpz2ber"
-     Owner_Name       = "analytics"
+     Owner_Name       = "gogulaa@fortude.co"
      Line_of_Business = "bi"
      Application_Name = "analytics_stratagy"
      Enviroment_Name  = "dev"
@@ -20,8 +20,8 @@ provider "aws" {
 
 # CREATE VPC
 
-resource "aws_vpc" "bi-dev-vpc" {
-  cidr_block       = "10.216.224.0/19"
+resource "aws_vpc" "bi-sandbox-vpc" {
+  cidr_block       = "10.214.192.0/21"
   instance_tenancy = "default"
   enable_dns_hostnames = true
   enable_dns_support   = true
@@ -29,34 +29,34 @@ resource "aws_vpc" "bi-dev-vpc" {
 
 # CREATE SUBNETS
 
-resource "aws_subnet" "bi-dev-adapt-subnet-1a-1" {
-  vpc_id     = aws_vpc.bi-dev-vpc.id
-  cidr_block = "10.216.224.0/24"
+resource "aws_subnet" "bi-sandbox-adapt-subnet-1a-1" {
+  vpc_id     = aws_vpc.bi-sandbox-vpc.id
+  cidr_block = "10.214.192.0/24"
   availability_zone = "ap-southeast-1a"
 }
 
-resource "aws_subnet" "bi-dev-adapt-subnet-1b-1" {
-  vpc_id     = aws_vpc.bi-dev-vpc.id
-  cidr_block = "10.216.234.0/24"
+resource "aws_subnet" "bi-sandbox-adapt-subnet-1b-1" {
+  vpc_id     = aws_vpc.bi-sandbox-vpc.id
+  cidr_block = "10.214.193.0/24"
   availability_zone = "ap-southeast-1b"
 }
 
-resource "aws_subnet" "bi-dev-app-subnet-1a-1" {
-  vpc_id     = aws_vpc.bi-dev-vpc.id
-  cidr_block = "10.216.225.0/24"
+resource "aws_subnet" "bi-sandbox-app-subnet-1a-1" {
+  vpc_id     = aws_vpc.bi-sandbox-vpc.id
+  cidr_block = "10.214.194.0/24"
   availability_zone = "ap-southeast-1a"
 }
 
-resource "aws_subnet" "bi-dev-app-subnet-1b-1" {
-  vpc_id     = aws_vpc.bi-dev-vpc.id
-  cidr_block = "10.216.235.0/24"
+resource "aws_subnet" "bi-sandbox-app-subnet-1b-1" {
+  vpc_id     = aws_vpc.bi-sandbox-vpc.id
+  cidr_block = "10.214.195.0/24"
   availability_zone = "ap-southeast-1b"
 }
 
 # CREATE ROUTING TABLE
 
-resource "aws_route_table" "bi-dev-private-1a-1b-rt" {
-  vpc_id     = aws_vpc.bi-dev-vpc.id
+resource "aws_route_table" "bi-sandbox-private-1a-1b-rt" {
+  vpc_id     = aws_vpc.bi-sandbox-vpc.id
 
   # route {
   #   cidr_block = "0.0.0.0/0"
@@ -66,24 +66,24 @@ resource "aws_route_table" "bi-dev-private-1a-1b-rt" {
 
 # CREATE SUBNET TO ROUTING TABLE ASSOCIATION
 
-resource "aws_route_table_association" "bi-dev-adapt-subnet-1a-1-ass" {
-  subnet_id      = aws_subnet.bi-dev-adapt-subnet-1a-1.id
-  route_table_id = aws_route_table.bi-dev-private-1a-1b-rt.id
+resource "aws_route_table_association" "bi-sandbox-adapt-subnet-1a-1-ass" {
+  subnet_id      = aws_subnet.bi-sandbox-adapt-subnet-1a-1.id
+  route_table_id = aws_route_table.bi-sandbox-private-1a-1b-rt.id
 }
 
-resource "aws_route_table_association" "bi-dev-adapt-subnet-1b-1-ass" {
-  subnet_id      = aws_subnet.bi-dev-adapt-subnet-1b-1.id
-  route_table_id = aws_route_table.bi-dev-private-1a-1b-rt.id
+resource "aws_route_table_association" "bi-sandbox-adapt-subnet-1b-1-ass" {
+  subnet_id      = aws_subnet.bi-sandbox-adapt-subnet-1b-1.id
+  route_table_id = aws_route_table.bi-sandbox-private-1a-1b-rt.id
 }
 
-resource "aws_route_table_association" "bi-dev-app-subnet-1a-1-ass" {
-  subnet_id      = aws_subnet.bi-dev-app-subnet-1a-1.id
-  route_table_id = aws_route_table.bi-dev-private-1a-1b-rt.id
+resource "aws_route_table_association" "bi-sandbox-app-subnet-1a-1-ass" {
+  subnet_id      = aws_subnet.bi-sandbox-app-subnet-1a-1.id
+  route_table_id = aws_route_table.bi-sandbox-private-1a-1b-rt.id
 }
 
-resource "aws_route_table_association" "bi-dev-app-subnet-1b-1-ass" {
-  subnet_id      = aws_subnet.bi-dev-app-subnet-1b-1.id
-  route_table_id = aws_route_table.bi-dev-private-1a-1b-rt.id
+resource "aws_route_table_association" "bi-sandbox-app-subnet-1b-1-ass" {
+  subnet_id      = aws_subnet.bi-sandbox-app-subnet-1b-1.id
+  route_table_id = aws_route_table.bi-sandbox-private-1a-1b-rt.id
 }
 
 # CREATE DB SUBNET GROUP
