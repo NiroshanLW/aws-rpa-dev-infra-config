@@ -11,8 +11,8 @@ provider "aws" {
   # }
    default_tags {
    tags = {
-     map-migrated     = "d-server-027onhhwpz2ber"
-     Owner_Name       = "gogulaa@fortude.co"
+     map-migrated     = "d-server-XXXXXXXXXX"
+     Owner_Name       = "XXXXXXXXXXXXX"
      Line_of_Business = "bi"
      Application_Name = "analytics_stratagy"
      Enviroment_Name  = "dev"
@@ -25,7 +25,7 @@ provider "aws" {
 ############################
 
 resource "aws_vpc" "bi-sandbox-dl-sec-vpc" {
-  cidr_block       = "10.214.192.0/21"
+  cidr_block       = "10.XXX.XXX.0/21"
   instance_tenancy = "default"
   enable_dns_hostnames = true
   enable_dns_support   = true
@@ -37,7 +37,7 @@ resource "aws_vpc" "bi-sandbox-dl-sec-vpc" {
 ################################################################################
 
 resource "aws_vpc" "bi-sandbox-dm-sec-vpc" {
-  cidr_block       = "10.214.200.0/21"
+  cidr_block       = "10.XXX.XXX.0/21"
   instance_tenancy = "default"
   enable_dns_hostnames = true
   enable_dns_support   = true
@@ -52,7 +52,7 @@ resource "aws_vpc" "bi-sandbox-dm-sec-vpc" {
 
 resource "aws_subnet" "bi-sandbox-dl-sec-adapt-subnet-1a-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
-  cidr_block = "10.214.192.0/24"
+  cidr_block = "10.XXX.XXX.0/24"
   availability_zone = "ap-southeast-1a"
   tags = {
     Name = "bi-sandbox-dl-sec-adapt-subnet-1a-1"
@@ -61,7 +61,7 @@ resource "aws_subnet" "bi-sandbox-dl-sec-adapt-subnet-1a-1" {
 
 resource "aws_subnet" "bi-sandbox-dl-sec-adapt-subnet-1b-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
-  cidr_block = "10.214.193.0/24"
+  cidr_block = "10.XXX.XXX.0/24"
   availability_zone = "ap-southeast-1b"
   tags = {
     Name = "bi-sandbox-dl-sec-adapt-subnet-1b-1"
@@ -70,7 +70,7 @@ resource "aws_subnet" "bi-sandbox-dl-sec-adapt-subnet-1b-1" {
 
 resource "aws_subnet" "bi-sandbox-dl-sec-service-subnet-1a-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
-  cidr_block = "10.214.194.0/24"
+  cidr_block = "10.XXX.XXX.0/24"
   availability_zone = "ap-southeast-1a"
   tags = {
     Name = "bi-sandbox-dl-sec-service-subnet-1a-1"
@@ -79,7 +79,7 @@ resource "aws_subnet" "bi-sandbox-dl-sec-service-subnet-1a-1" {
 
 resource "aws_subnet" "bi-sandbox-dl-sec-service-subnet-1b-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
-  cidr_block = "10.214.195.0/24"
+  cidr_block = "10.XXX.XXX.0/24"
   availability_zone = "ap-southeast-1b"
   tags = {
     Name = "bi-sandbox-dl-sec-service-subnet-1b-1"
@@ -88,7 +88,7 @@ resource "aws_subnet" "bi-sandbox-dl-sec-service-subnet-1b-1" {
 
 resource "aws_subnet" "bi-sandbox-dl-sec-datalake-subnet-1a-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
-  cidr_block = "10.214.196.0/24"
+  cidr_block = "10.XXX.XXX.0/24"
   availability_zone = "ap-southeast-1a"
   tags = {
     Name = "bi-sandbox-dl-sec-datalake-subnet-1a-1"
@@ -97,7 +97,7 @@ resource "aws_subnet" "bi-sandbox-dl-sec-datalake-subnet-1a-1" {
 
 resource "aws_subnet" "bi-sandbox-dl-sec-datalake-subnet-1b-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
-  cidr_block = "10.214.197.0/24"
+  cidr_block = "10.XXX.XXX.0/24"
   availability_zone = "ap-southeast-1b"
   tags = {
     Name = "bi-sandbox-dl-sec-datalake-subnet-1b-1"
@@ -106,7 +106,7 @@ resource "aws_subnet" "bi-sandbox-dl-sec-datalake-subnet-1b-1" {
 
 resource "aws_subnet" "bi-sandbox-dl-sec-entdataproduct-subnet-1a-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
-  cidr_block = "10.214.198.0/24"
+  cidr_block = "10.XXX.XXX.0/24"
   availability_zone = "ap-southeast-1a"
   tags = {
     Name = "bi-sandbox-dl-sec-entdataproduct-subnet-1a-1"
@@ -115,7 +115,7 @@ resource "aws_subnet" "bi-sandbox-dl-sec-entdataproduct-subnet-1a-1" {
 
 resource "aws_subnet" "bi-sandbox-dl-sec-entdataproduct-subnet-1b-1" {
   vpc_id     = aws_vpc.bi-sandbox-dl-sec-vpc.id
-  cidr_block = "10.214.199.0/24"
+  cidr_block = "10.XXX.XXX.0/24"
   availability_zone = "ap-southeast-1b"
   tags = {
     Name = "bi-sandbox-dl-sec-entdataproduct-subnet-1b-1"
@@ -126,7 +126,7 @@ resource "aws_subnet" "bi-sandbox-dl-sec-entdataproduct-subnet-1b-1" {
 
 resource "aws_subnet" "bi-sandbox-dm-sec-adapt-subnet-1a-1" {
   vpc_id     = aws_vpc.bi-sandbox-dm-sec-vpc.id
-  cidr_block = "10.214.200.0/24"
+  cidr_block = "10.XXX.XXX.0/24"
   availability_zone = "ap-southeast-1a"
   tags = {
     Name = "bi-sandbox-dm-sec-adapt-subnet-1a-1"
@@ -135,7 +135,7 @@ resource "aws_subnet" "bi-sandbox-dm-sec-adapt-subnet-1a-1" {
 
 resource "aws_subnet" "bi-sandbox-dm-sec-adapt-subnet-1b-1" {
   vpc_id     = aws_vpc.bi-sandbox-dm-sec-vpc.id
-  cidr_block = "10.214.201.0/24"
+  cidr_block = "10.XXX.XXX.0/24"
   availability_zone = "ap-southeast-1b"
   tags = {
     Name = "bi-sandbox-dm-sec-adapt-subnet-1b-1"
@@ -144,7 +144,7 @@ resource "aws_subnet" "bi-sandbox-dm-sec-adapt-subnet-1b-1" {
 
 resource "aws_subnet" "bi-sandbox-dm-sec-service-subnet-1a-1" {
   vpc_id     = aws_vpc.bi-sandbox-dm-sec-vpc.id
-  cidr_block = "10.214.202.0/24"
+  cidr_block = "10.XXX.XXX.0/24"
   availability_zone = "ap-southeast-1a"
   tags = {
     Name = "bi-sandbox-dm-sec-service-subnet-1a-1"
@@ -153,7 +153,7 @@ resource "aws_subnet" "bi-sandbox-dm-sec-service-subnet-1a-1" {
 
 resource "aws_subnet" "bi-sandbox-dm-sec-service-subnet-1b-1" {
   vpc_id     = aws_vpc.bi-sandbox-dm-sec-vpc.id
-  cidr_block = "10.214.203.0/24"
+  cidr_block = "10.XXX.XXX.0/24"
   availability_zone = "ap-southeast-1b"
   tags = {
     Name = "bi-sandbox-dm-sec-service-subnet-1b-1"
@@ -167,7 +167,7 @@ resource "aws_subnet" "bi-sandbox-dm-sec-service-subnet-1b-1" {
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "bi-sandbox-dl-sec-vpc-tgw-attach" {
   subnet_ids         = [aws_subnet.bi-sandbox-dl-sec-adapt-subnet-1a-1.id,aws_subnet.bi-sandbox-dl-sec-adapt-subnet-1b-1.id]
-  transit_gateway_id = "tgw-0d7caf9dc995910f5"
+  transit_gateway_id = "tgw-XXXXXXXXXXXXXXXXXXXXX"
   vpc_id             = aws_vpc.bi-sandbox-dl-sec-vpc.id
   tags = {
     Name = "bi-sandbox-dl-sec-vpc-tgw-attach"
@@ -178,7 +178,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "bi-sandbox-dl-sec-vpc-tgw-att
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "bi-sandbox-dm-sec-vpc-tgw-attach" {
   subnet_ids         = [aws_subnet.bi-sandbox-dm-sec-adapt-subnet-1a-1.id,aws_subnet.bi-sandbox-dm-sec-adapt-subnet-1b-1.id]
-  transit_gateway_id = "tgw-0d7caf9dc995910f5"
+  transit_gateway_id = "tgw-XXXXXXXXXXXXXXXXXXXXX"
   vpc_id             = aws_vpc.bi-sandbox-dm-sec-vpc.id
   tags = {
     Name = "bi-sandbox-dm-sec-vpc-tgw-attach"
@@ -194,7 +194,7 @@ resource "aws_route_table" "bi-sandbox-dl-sec-private-1a-1b-rt" {
 
   route {
     cidr_block         = "0.0.0.0/0"
-    transit_gateway_id = "tgw-0d7caf9dc995910f5"
+    transit_gateway_id = "tgw-XXXXXXXXXXXXXXXXXXXXX"
   }
   tags = {
     Name = "bi-sandbox-dl-sec-private-1a-1b-rt"
@@ -208,7 +208,7 @@ resource "aws_route_table" "bi-sandbox-dm-sec-private-1a-1b-rt" {
 
   route {
     cidr_block         = "0.0.0.0/0"
-    transit_gateway_id = "tgw-0d7caf9dc995910f5"
+    transit_gateway_id = "tgw-XXXXXXXXXXXXXXXXXXXXX"
   }
   tags = {
     Name = "bi-sandbox-dm-sec-private-1a-1b-rt"
@@ -364,8 +364,8 @@ resource "aws_db_instance" "bi-sandbox-dl-sec-rds-db" {
   multi_az               = false
   engine                 = "sqlserver-ex"
   engine_version         = "15.00.4073.23.v1"
-  username               = "bisandboxrdsdb"
-  password               = "bisandboxrdsdb"
+  username               = "bisanXXXXXXoxrdsdb"
+  password               = "bisanXXXXXXoxrdsdb"
   db_subnet_group_name   = aws_db_subnet_group.bi-sandbox-dl-sec-db-subnet-grp.name
   vpc_security_group_ids = [aws_security_group.bi-sandbox-dl-sec-rds-sg.id]
 #  parameter_group_name   = aws_db_parameter_group.education.name
